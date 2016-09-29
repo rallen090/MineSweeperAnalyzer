@@ -1,0 +1,8 @@
+C:\dev\MineSweeper\MineSweeper.Solver.CSharp\bin\Debug\MineSweeper.Solver.CSharp.exe.config
+C:\dev\MineSweeper\MineSweeper.Solver.CSharp\bin\Debug\MineSweeper.Solver.CSharp.exe
+C:\dev\MineSweeper\MineSweeper.Solver.CSharp\bin\Debug\MineSweeper.Solver.CSharp.pdb
+C:\dev\MineSweeper\MineSweeper.Solver.CSharp\obj\Debug\MineSweeper.Solver.CSharp.exe
+C:\dev\MineSweeper\MineSweeper.Solver.CSharp\obj\Debug\MineSweeper.Solver.CSharp.pdb
+C:\dev\MineSweeper\MineSweeper.Solver.CSharp\bin\Debug\Newtonsoft.Json.dll
+C:\dev\MineSweeper\MineSweeper.Solver.CSharp\bin\Debug\Newtonsoft.Json.xml
+C:\dev\MineSweeper\MineSweeper.Solver.CSharp\obj\Debug\MineSweeper.Solver.CSharp.csprojResolveAssemblyReference.cache
