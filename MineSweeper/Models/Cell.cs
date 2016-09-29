@@ -1,4 +1,5 @@
 ﻿using System;
+using MineSweeper.Solvers;
 using Newtonsoft.Json;
 
 namespace MineSweeper.Models
@@ -7,7 +8,6 @@ namespace MineSweeper.Models
     {
         public int X { get; private set; }
         public int Y { get; private set; }
-        [JsonIgnore]
         public bool IsMine { get; private set; }
 
         public int Value { get; set; }
@@ -39,6 +39,17 @@ namespace MineSweeper.Models
                     throw new Exception("Invalid cell state");
             }
         }
+    }
+
+    /// <summary>
+    /// Version of <see cref="Cell"/> sent to the <see cref="ISolver"/> implementations so that certain data are protected (e.g. provide Value only if Revealed)
+    /// </summary>
+    public class RemoteCell
+    {
+        public int X { get; set; }
+        public int Y { get; set; }
+        public int? Value { get; set; }
+        public CellState State { get; set; }
     }
 
     public enum CellState

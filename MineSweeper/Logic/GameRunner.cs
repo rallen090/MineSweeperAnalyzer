@@ -67,8 +67,17 @@ namespace MineSweeper.Logic
                     game.Steps.Add(grid.DeepCopy());
                     this.UpdateDisplay(() =>
                     {
-                        this._display.RedrawGrid(grid);
                         this._display.LogError(ex.ToString());
+
+                        // add one more step with the board revealed for debugging
+                        var revealedGrid = grid.DeepCopy();
+                        foreach (var cell in revealedGrid)
+                        {
+                            cell.State = CellState.Revealed;
+                        }
+                        game.Steps.Add(revealedGrid);
+
+                        this._display.RedrawGrid(revealedGrid);
                     });
                 }
                 this.UpdateDisplay(() => this._display.UpdateRunInfo(this._games));
