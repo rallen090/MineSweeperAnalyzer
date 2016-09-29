@@ -7,9 +7,6 @@ namespace MineSweeper.Logic
 {
     public class Sweeper
     {
-        public static int MaxX;
-        public static int MaxY;
-
         public static Cell[,] GenerateGrid(int xSize, int ySize, int mineCount)
         {
             var grid = new Cell[ySize, xSize];
@@ -105,8 +102,8 @@ namespace MineSweeper.Logic
 
         private static List<Cell> GetAdjacentCells(Cell[,] grid, int x, int y)
         {
-            var xOptions = new [] { x - 1, x, x + 1 }.Where(v => v >= 0 && v <= MaxX);
-            var yOptions = new [] { y - 1, y, y + 1 }.Where(v => v >= 0 && v <= MaxY);
+            var xOptions = new [] { x - 1, x, x + 1 }.Where(v => v >= 0 && v < grid.GetLength(1));
+            var yOptions = new [] { y - 1, y, y + 1 }.Where(v => v >= 0 && v < grid.GetLength(0));
             var allPairs = xOptions.SelectMany(xValue => yOptions.Select(yValue => new { xValue, yValue })).Where(s => s.xValue != x || s.yValue != y);
             return allPairs.Select(p => grid[p.yValue, p.xValue]).ToList();
         } 
