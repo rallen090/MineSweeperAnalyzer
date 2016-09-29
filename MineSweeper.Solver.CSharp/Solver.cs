@@ -6,7 +6,7 @@ namespace MineSweeper.Solver.CSharp
 {
     public class Solver
     {
-        private readonly Queue<Move> _moves = new Queue<Move>(); 
+        private readonly Queue<Move> _moves = new Queue<Move>();
 
         public Move GetNextMove(Cell[,] grid)
         {
@@ -37,7 +37,7 @@ namespace MineSweeper.Solver.CSharp
                     return this.EnqueueExtraMoves(hidden, MoveType.Click);
                 }
                 // flag if the value is not accounted for by adjacent flags
-                if (relativeValue > hidden.Count && hidden.Count > 0)
+                if (relativeValue >= hidden.Count && hidden.Count > 0)
                 {
                     return this.EnqueueExtraMoves(hidden, MoveType.Flag);
                 }

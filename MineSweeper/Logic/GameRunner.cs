@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Windows.Forms;
 using MineSweeper.Models;
 using MineSweeper.Solvers;
@@ -38,13 +39,27 @@ namespace MineSweeper.Logic
             this.UpdateDisplay(() => this._display.CompleteRunInfo());
         }
 
-        private void RunOne(Game game)
+        public void Rerun(int index)
+        {
+            var game = this._games[index];
+            this.RunOne(game, rerun: true);
+        }
+
+        private void RunOne(Game game, bool rerun = false)
         {
             using (var solver = this._solverFactory())
             {
-                var grid = Sweeper.GenerateGrid(this._xSize, this._ySize, this._mineCount);
+                var grid = !rerun
+                    ? Sweeper.GenerateGrid(this._xSize, this._ySize, this._mineCount)
+                    : game.Steps.First();
+
+                if (rerun)
+                {
+                    game.Steps.Clear();
+                }
                 game.Steps.Add(grid.DeepCopy());
-                this.UpdateDisplay(() => this._display.InitializeGrid(grid));
+
+                this.UpdateDisplay(() => this._display.InitializeGrid(game.Steps.First()));
 
                 try
                 {
@@ -52,10 +67,11 @@ namespace MineSweeper.Logic
                     {
                         var move = solver.GetNextMove(grid);
                         grid = Sweeper.ExecuteMove(grid, move);
-                        game.Steps.Add(grid.DeepCopy());
+                        var copy = grid.DeepCopy();
+                        game.Steps.Add(copy);
 
                         // draw the new grid as we move
-                        this.UpdateDisplay(() => this._display.RedrawGrid(grid));
+                        this.UpdateDisplay(() => this._display.RedrawGrid(copy));
                     }
                     while (!Sweeper.IsComplete(grid, this._mineCount));
 
@@ -64,7 +80,9 @@ namespace MineSweeper.Logic
                 catch (Exception ex)
                 {
                     game.Exception = ex;
-                    game.Steps.Add(grid.DeepCopy());
+                    var lastMove = grid.DeepCopy();
+                    game.Steps.Add(lastMove);
+                    this._display.RedrawGrid(lastMove);
                     this.UpdateDisplay(() =>
                     {
                         this._display.LogError(ex.ToString());
@@ -76,8 +94,6 @@ namespace MineSweeper.Logic
                             cell.State = CellState.Revealed;
                         }
                         game.Steps.Add(revealedGrid);
-
-                        this._display.RedrawGrid(revealedGrid);
                     });
                 }
                 this.UpdateDisplay(() => this._display.UpdateRunInfo(this._games));
