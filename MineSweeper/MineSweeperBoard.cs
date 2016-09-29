@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -58,7 +59,9 @@ namespace MineSweeper
                 var row = this.dataGridView1.Rows[y];
                 for (var x = 0; x < grid.GetLength(1); x++)
                 {
-                    row.Cells[x].Value = grid[y, x];
+                    var cell = grid[y, x];
+                    row.Cells[x].Value = cell;
+                    row.Cells[x].Style = GetColorStyleByCell(cell);
                 }
             }
         }
@@ -72,7 +75,7 @@ namespace MineSweeper
                 this.comboBoxCurrentRun.Items.Clear();
                 Enumerable.Range(1, totalGames).ToList().ForEach(i => this.comboBoxCurrentRun.Items.Add(i.ToString()));
                 this.comboBoxCurrentRun.SelectedIndex = 0;
-                this.labelRatio.Text = $"Success ratio: {successes / totalGames * 100}%";
+                this.labelRatio.Text = $"Success ratio: {(double)successes / totalGames * 100}%";
                 this.labelSuccessRate.Text = $"Success rate: {successes}/{totalGames}";
             }
         }
@@ -85,6 +88,24 @@ namespace MineSweeper
         public void LogError(string error)
         {
             this._errorLog.Invoke((MethodInvoker)delegate { this._errorLog.Log(error); });
+        }
+
+        public static DataGridViewCellStyle GetColorStyleByCell(Cell cell)
+        {
+            var color = DefaultForeColor;
+            switch (cell.State)
+            {
+                case CellState.Hidden:
+                    color = Color.Black;
+                    break;
+                case CellState.Revealed:
+                    color = cell.IsMine ? Color.Red : Color.Green;
+                    break;
+                case CellState.Flagged:
+                    color = Color.PaleVioletRed;
+                    break;
+            }
+            return new DataGridViewCellStyle { ForeColor = color };
         }
 
         #region ---- UI Events ----
@@ -183,5 +204,10 @@ namespace MineSweeper
         }
 
         #endregion
+
+        private void buttonRerun_Click(object sender, EventArgs e)
+        {
+            this._gameRunner.Rerun(this.comboBoxCurrentRun.SelectedIndex);
+        }
     }
 }

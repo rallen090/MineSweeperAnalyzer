@@ -48,6 +48,7 @@
             this.labelSolver = new System.Windows.Forms.Label();
             this.comboBoxSolver = new System.Windows.Forms.ComboBox();
             this.buttonToggleErrorLog = new System.Windows.Forms.Button();
+            this.buttonRerun = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -61,17 +62,17 @@
             this.dataGridView1.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.DisplayedCells;
             this.dataGridView1.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.Raised;
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Location = new System.Drawing.Point(12, 141);
+            this.dataGridView1.Location = new System.Drawing.Point(13, 133);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.ReadOnly = true;
-            this.dataGridView1.Size = new System.Drawing.Size(520, 400);
+            this.dataGridView1.Size = new System.Drawing.Size(608, 429);
             this.dataGridView1.TabIndex = 0;
             // 
             // buttonRun
             // 
             this.buttonRun.Location = new System.Drawing.Point(13, 13);
             this.buttonRun.Name = "buttonRun";
-            this.buttonRun.Size = new System.Drawing.Size(160, 100);
+            this.buttonRun.Size = new System.Drawing.Size(160, 85);
             this.buttonRun.TabIndex = 1;
             this.buttonRun.Text = "Run";
             this.buttonRun.UseVisualStyleBackColor = true;
@@ -134,7 +135,7 @@
             // labelCurrentRun
             // 
             this.labelCurrentRun.AutoSize = true;
-            this.labelCurrentRun.Location = new System.Drawing.Point(371, 85);
+            this.labelCurrentRun.Location = new System.Drawing.Point(500, 13);
             this.labelCurrentRun.Name = "labelCurrentRun";
             this.labelCurrentRun.Size = new System.Drawing.Size(62, 13);
             this.labelCurrentRun.TabIndex = 8;
@@ -143,7 +144,7 @@
             // labelCurrentStep
             // 
             this.labelCurrentStep.AutoSize = true;
-            this.labelCurrentStep.Location = new System.Drawing.Point(371, 117);
+            this.labelCurrentStep.Location = new System.Drawing.Point(500, 36);
             this.labelCurrentStep.Name = "labelCurrentStep";
             this.labelCurrentStep.Size = new System.Drawing.Size(67, 13);
             this.labelCurrentStep.TabIndex = 9;
@@ -170,7 +171,7 @@
             // labelX
             // 
             this.labelX.AutoSize = true;
-            this.labelX.Location = new System.Drawing.Point(261, 17);
+            this.labelX.Location = new System.Drawing.Point(261, 15);
             this.labelX.Name = "labelX";
             this.labelX.Size = new System.Drawing.Size(12, 13);
             this.labelX.TabIndex = 12;
@@ -198,9 +199,9 @@
             // 
             this.comboBoxCurrentRun.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBoxCurrentRun.FormattingEnabled = true;
-            this.comboBoxCurrentRun.Location = new System.Drawing.Point(433, 82);
+            this.comboBoxCurrentRun.Location = new System.Drawing.Point(568, 9);
             this.comboBoxCurrentRun.Name = "comboBoxCurrentRun";
-            this.comboBoxCurrentRun.Size = new System.Drawing.Size(83, 21);
+            this.comboBoxCurrentRun.Size = new System.Drawing.Size(43, 21);
             this.comboBoxCurrentRun.TabIndex = 15;
             this.comboBoxCurrentRun.SelectedIndexChanged += new System.EventHandler(this.comboBoxCurrentRun_SelectedIndexChanged);
             // 
@@ -208,9 +209,9 @@
             // 
             this.comboBoxCurrentStep.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBoxCurrentStep.FormattingEnabled = true;
-            this.comboBoxCurrentStep.Location = new System.Drawing.Point(435, 114);
+            this.comboBoxCurrentStep.Location = new System.Drawing.Point(568, 32);
             this.comboBoxCurrentStep.Name = "comboBoxCurrentStep";
-            this.comboBoxCurrentStep.Size = new System.Drawing.Size(81, 21);
+            this.comboBoxCurrentStep.Size = new System.Drawing.Size(43, 21);
             this.comboBoxCurrentStep.TabIndex = 16;
             this.comboBoxCurrentStep.SelectedIndexChanged += new System.EventHandler(this.comboBoxCurrentStep_SelectedIndexChanged);
             // 
@@ -240,7 +241,7 @@
             // 
             // buttonToggleErrorLog
             // 
-            this.buttonToggleErrorLog.Location = new System.Drawing.Point(13, 114);
+            this.buttonToggleErrorLog.Location = new System.Drawing.Point(14, 104);
             this.buttonToggleErrorLog.Name = "buttonToggleErrorLog";
             this.buttonToggleErrorLog.Size = new System.Drawing.Size(160, 23);
             this.buttonToggleErrorLog.TabIndex = 19;
@@ -248,12 +249,23 @@
             this.buttonToggleErrorLog.UseVisualStyleBackColor = true;
             this.buttonToggleErrorLog.Click += new System.EventHandler(this.buttonToggleErrorLog_Click);
             // 
+            // buttonRerun
+            // 
+            this.buttonRerun.Location = new System.Drawing.Point(503, 55);
+            this.buttonRerun.Name = "buttonRerun";
+            this.buttonRerun.Size = new System.Drawing.Size(108, 21);
+            this.buttonRerun.TabIndex = 20;
+            this.buttonRerun.Text = "Rerun";
+            this.buttonRerun.UseVisualStyleBackColor = true;
+            this.buttonRerun.Click += new System.EventHandler(this.buttonRerun_Click);
+            // 
             // MineSweeperBoard
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSize = true;
-            this.ClientSize = new System.Drawing.Size(543, 553);
+            this.ClientSize = new System.Drawing.Size(633, 567);
+            this.Controls.Add(this.buttonRerun);
             this.Controls.Add(this.buttonToggleErrorLog);
             this.Controls.Add(this.comboBoxSolver);
             this.Controls.Add(this.labelSolver);
@@ -305,6 +317,7 @@
         private System.Windows.Forms.Label labelSolver;
         private System.Windows.Forms.ComboBox comboBoxSolver;
         private System.Windows.Forms.Button buttonToggleErrorLog;
+        private System.Windows.Forms.Button buttonRerun;
     }
 }
 
