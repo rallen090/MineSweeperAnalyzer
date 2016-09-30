@@ -1,6 +1,6 @@
 ﻿namespace MineSweeper
 {
-    partial class MineSweeperBoard
+    sealed partial class MineSweeperBoard
     {
         /// <summary>
         /// Required designer variable.
@@ -49,6 +49,7 @@
             this.comboBoxSolver = new System.Windows.Forms.ComboBox();
             this.buttonToggleErrorLog = new System.Windows.Forms.Button();
             this.buttonRerun = new System.Windows.Forms.Button();
+            this.checkBoxRealTimeRedraw = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -259,12 +260,25 @@
             this.buttonRerun.UseVisualStyleBackColor = true;
             this.buttonRerun.Click += new System.EventHandler(this.buttonRerun_Click);
             // 
+            // checkBoxRealTimeRedraw
+            // 
+            this.checkBoxRealTimeRedraw.AutoSize = true;
+            this.checkBoxRealTimeRedraw.Checked = true;
+            this.checkBoxRealTimeRedraw.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.checkBoxRealTimeRedraw.Location = new System.Drawing.Point(183, 108);
+            this.checkBoxRealTimeRedraw.Name = "checkBoxRealTimeRedraw";
+            this.checkBoxRealTimeRedraw.Size = new System.Drawing.Size(105, 17);
+            this.checkBoxRealTimeRedraw.TabIndex = 21;
+            this.checkBoxRealTimeRedraw.Text = "Real-time redraw";
+            this.checkBoxRealTimeRedraw.UseVisualStyleBackColor = true;
+            // 
             // MineSweeperBoard
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSize = true;
             this.ClientSize = new System.Drawing.Size(633, 567);
+            this.Controls.Add(this.checkBoxRealTimeRedraw);
             this.Controls.Add(this.buttonRerun);
             this.Controls.Add(this.buttonToggleErrorLog);
             this.Controls.Add(this.comboBoxSolver);
@@ -318,6 +332,7 @@
         private System.Windows.Forms.ComboBox comboBoxSolver;
         private System.Windows.Forms.Button buttonToggleErrorLog;
         private System.Windows.Forms.Button buttonRerun;
+        private System.Windows.Forms.CheckBox checkBoxRealTimeRedraw;
     }
 }
 

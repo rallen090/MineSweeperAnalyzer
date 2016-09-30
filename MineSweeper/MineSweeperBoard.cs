@@ -10,14 +10,18 @@ using MineSweeper.Solvers;
 
 namespace MineSweeper
 {
-    public partial class MineSweeperBoard : Form
+    public sealed partial class MineSweeperBoard : Form
     {
         private GameRunner _gameRunner;
-        private ErrorLog _errorLog;
+        private readonly ErrorLog _errorLog;
+        private Task _runnerTask;
 
         public MineSweeperBoard()
         {
             InitializeComponent();
+
+            // for very dynamic layouts which are updated frequently on the form
+            this.DoubleBuffered = true;
             
             // set up error log
             this._errorLog = new ErrorLog();
@@ -42,7 +46,11 @@ namespace MineSweeper
                     {
                         Value = grid[y, x]
                     });
-                    row.Cells[x].Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
+
+                    // set the cell styling
+                    var style = row.Cells[x].Style;
+                    style.Alignment = DataGridViewContentAlignment.MiddleCenter;
+                    style.Font = new Font(DefaultFont, FontStyle.Bold);
                 }
                 this.dataGridView1.Rows.Add(row);
             }
@@ -53,16 +61,22 @@ namespace MineSweeper
 
         public void RedrawGrid(Cell[,] grid)
         {
-            this.dataGridView1.ColumnCount = grid.GetLength(1);
-            for (var y = 0; y < grid.GetLength(0); y++)
+            // redraw enabled is (A) there is an active run and real-time redraw is turned on, or (B) there is not an active run
+            if (this.checkBoxRealTimeRedraw.Checked || this._runnerTask.IsCompleted)
             {
-                var row = this.dataGridView1.Rows[y];
-                for (var x = 0; x < grid.GetLength(1); x++)
+                this.SuspendLayout();
+                this.dataGridView1.ColumnCount = grid.GetLength(1);
+                for (var y = 0; y < grid.GetLength(0); y++)
                 {
-                    var cell = grid[y, x];
-                    row.Cells[x].Value = cell;
-                    row.Cells[x].Style = GetColorStyleByCell(cell);
+                    var row = this.dataGridView1.Rows[y];
+                    for (var x = 0; x < grid.GetLength(1); x++)
+                    {
+                        var cell = grid[y, x];
+                        row.Cells[x].Value = cell;
+                        row.Cells[x].Style.ForeColor = GetColorStyleByCell(cell);
+                    }
                 }
+                this.ResumeLayout();
             }
         }
 
@@ -74,8 +88,8 @@ namespace MineSweeper
                 var successes = games.Count(g => g.Success);
                 this.comboBoxCurrentRun.Items.Clear();
                 Enumerable.Range(1, totalGames).ToList().ForEach(i => this.comboBoxCurrentRun.Items.Add(i.ToString()));
-                this.comboBoxCurrentRun.SelectedIndex = 0;
-                this.labelRatio.Text = $"Success ratio: {(double)successes / totalGames * 100}%";
+                this.comboBoxCurrentRun.SelectedIndex = games.Count - 1;
+                this.labelRatio.Text = $"Success ratio: {Math.Round((double)successes / totalGames * 100, 2)}%";
                 this.labelSuccessRate.Text = $"Success rate: {successes}/{totalGames}";
             }
         }
@@ -90,7 +104,7 @@ namespace MineSweeper
             this._errorLog.Invoke((MethodInvoker)delegate { this._errorLog.Log(error); });
         }
 
-        public static DataGridViewCellStyle GetColorStyleByCell(Cell cell)
+        private static Color GetColorStyleByCell(Cell cell)
         {
             var color = DefaultForeColor;
             switch (cell.State)
@@ -99,13 +113,38 @@ namespace MineSweeper
                     color = Color.Black;
                     break;
                 case CellState.Revealed:
-                    color = cell.IsMine ? Color.Red : Color.Green;
+                    color = cell.IsMine ? Color.Red : GetColorByValue(cell.Value);
                     break;
                 case CellState.Flagged:
-                    color = Color.PaleVioletRed;
+                    color = Color.DarkRed;
                     break;
             }
-            return new DataGridViewCellStyle { ForeColor = color };
+            return color;
+        }
+
+        private static Color GetColorByValue(int value)
+        {
+            switch (value)
+            {
+                case 1:
+                    return Color.Blue;
+                case 2:
+                    return Color.Green;
+                case 3:
+                    return Color.OrangeRed;
+                case 4:
+                    return Color.Purple;
+                case 5:
+                    return Color.Brown;
+                case 6:
+                    return Color.Cyan;
+                case 7:
+                    return Color.Black;
+                case 8:
+                    return Color.LightSlateGray;
+                default:
+                    return Color.DeepPink;
+            }
         }
 
         #region ---- UI Events ----
@@ -123,7 +162,7 @@ namespace MineSweeper
             var solverType = this.comboBoxSolver.SelectedItem.ToString();
             var runner = new GameRunner(xSize, ySize, mineCount, runCount, this, SolverSelector.GetSolverFactory(solverType));
             this._gameRunner = runner;
-            Task.Run(() => runner.RunAll());
+            this._runnerTask = Task.Run(() => runner.RunAll());
         }
 
         private void comboBoxCurrentRun_SelectedIndexChanged(object sender, EventArgs e)
@@ -203,11 +242,11 @@ namespace MineSweeper
             }
         }
 
-        #endregion
-
         private void buttonRerun_Click(object sender, EventArgs e)
         {
             this._gameRunner.Rerun(this.comboBoxCurrentRun.SelectedIndex);
         }
+
+        #endregion
     }
 }
