@@ -1,4 +1,6 @@
 ﻿using System;
+using System.IO;
+using System.Linq;
 using Medallion.Shell;
 
 namespace MineSweeper.Utilities
@@ -6,6 +8,11 @@ namespace MineSweeper.Utilities
     public class RemoteAdapter : IDisposable
     {
         private readonly Command _command;
+        private static readonly Lazy<string> CurrentDirectory = new Lazy<string>(() =>
+        {
+            var currentDirectory = Directory.GetCurrentDirectory();
+            return Directory.GetParent(currentDirectory).FullName;
+        });
 
         private RemoteAdapter(Command command)
         {
@@ -39,7 +46,7 @@ namespace MineSweeper.Utilities
 
         public static RemoteAdapter CreatePythonAdapter()
         {
-            return new RemoteAdapter(Command.Run(@"python", @"C:\dev\MineSweeper\Scripts\InputWrapperPython.py"));
+            return new RemoteAdapter(Command.Run(@"python", @"C:\dev\MineSweeper\MineSweeper.Solver.Python\RemoteAdapter.py"));
         }
 
         public static RemoteAdapter CreateJavaAdapter()
