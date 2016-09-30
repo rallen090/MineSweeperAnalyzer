@@ -55,7 +55,9 @@ namespace MineSweeper.Logic
                     {
                         throw new MineException("You've hit a mine!");
                     }
-                    else
+
+                    // reveal adjacent empty cells if we found one that is empty
+                    if(cell.Value == 0)
                     {
                         RevealEmptyAdjacentCells(grid, move.X, move.Y);
                     }

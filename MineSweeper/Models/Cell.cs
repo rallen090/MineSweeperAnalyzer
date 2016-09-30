@@ -25,9 +25,9 @@ namespace MineSweeper.Models
             switch (this.State)
             {
                 case CellState.Hidden:
-                    return "[]";
+                    return "[ ]";
                 case CellState.Flagged:
-                    return "F";
+                    return "-FLAG-";
                 case CellState.Revealed:
                     if (IsMine)
                     {

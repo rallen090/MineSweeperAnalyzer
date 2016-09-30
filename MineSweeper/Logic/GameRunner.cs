@@ -34,7 +34,8 @@ namespace MineSweeper.Logic
             {
                 var game = new Game();
                 this._games.Add(game);
-                this.RunOne(game);
+                var randomGrid = Sweeper.GenerateGrid(this._xSize, this._ySize, this._mineCount);
+                this.RunOne(game, randomGrid);
             }
             this.UpdateDisplay(() => this._display.CompleteRunInfo());
         }
@@ -42,21 +43,17 @@ namespace MineSweeper.Logic
         public void Rerun(int index)
         {
             var game = this._games[index];
-            this.RunOne(game, rerun: true);
+            var initialGrid = game.Steps.First();
+            game.Steps.Clear();
+            this.RunOne(game, initialGrid);
         }
 
-        private void RunOne(Game game, bool rerun = false)
+        private void RunOne(Game game, Cell[,] initialGrid)
         {
             using (var solver = this._solverFactory())
             {
-                var grid = !rerun
-                    ? Sweeper.GenerateGrid(this._xSize, this._ySize, this._mineCount)
-                    : game.Steps.First();
+                var grid = initialGrid;
 
-                if (rerun)
-                {
-                    game.Steps.Clear();
-                }
                 game.Steps.Add(grid.DeepCopy());
 
                 this.UpdateDisplay(() => this._display.InitializeGrid(game.Steps.First()));
@@ -100,14 +97,14 @@ namespace MineSweeper.Logic
             }
         }
 
+        public List<Game> GetGames()
+        {
+            return this._games;
+        }
+
         private void UpdateDisplay(Action action)
         {
             this._display.Invoke((MethodInvoker)delegate { action(); });
         }
-
-        public List<Game> GetGames()
-        {
-            return this._games;
-        } 
     }
 }
