@@ -45,6 +45,11 @@ namespace MineSweeper.Logic
             switch (move.MoveType)
             {
                 case MoveType.Click:
+                    if (cell.State == CellState.Revealed)
+                    {
+                        throw new Exception("You've already clicked this spot!");
+                    }
+
                     cell.State = CellState.Revealed;
                     if (cell.IsMine)
                     {
