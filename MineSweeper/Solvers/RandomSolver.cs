@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using MineSweeper.Logic;
 using MineSweeper.Models;
 
@@ -7,6 +9,7 @@ namespace MineSweeper.Solvers
     public class RandomSolver : ISolver
     {
         private readonly Queue<Move> _moveQueue = new Queue<Move>();
+        private readonly Random _random = new Random();
 
         public Move GetNextMove(Cell[,] grid)
         {
@@ -14,16 +17,24 @@ namespace MineSweeper.Solvers
             {
                 return this._moveQueue.Dequeue();
             }
-
-            foreach (var cell in grid)
-            {
-                this._moveQueue.Enqueue(new Move {MoveType = MoveType.Click, X = cell.X, Y = cell.Y});
-            }
-
-            //var random = new Random();
-            //var moves = Sweeper.GetRandomNumberSet(random, count: 15, min: 0, xMax: grid.GetLength(1), yMax: grid.GetLength(0)).ToList();
-            //moves.ForEach(m => this._moveQueue.Enqueue(new Move {MoveType = MoveType.Click, X = m.Item1, Y = m.Item2}));
+            var moves = new List<Move>(grid.Length);
+            moves.AddRange(from Cell cell in grid select new Move {MoveType = MoveType.Click, X = cell.X, Y = cell.Y});
+            this.Shuffle(moves);
+            moves.ForEach(this._moveQueue.Enqueue);
             return this._moveQueue.Dequeue();
+        }
+
+        public void Shuffle<T>(IList<T> list)
+        {
+            var n = list.Count;
+            while (n > 1)
+            {
+                n--;
+                var k = this._random.Next(n + 1);
+                var value = list[k];
+                list[k] = list[n];
+                list[n] = value;
+            }
         }
 
         public void Dispose()

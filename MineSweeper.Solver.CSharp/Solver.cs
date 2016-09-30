@@ -43,6 +43,8 @@ namespace MineSweeper.Solver.CSharp
                 }
             }
 
+            // recurse on a subsection and test flags
+
             // now just take the first open cell if we couldn't determine an actual good move
             foreach (var cell in grid)
             {

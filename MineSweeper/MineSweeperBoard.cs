@@ -29,14 +29,18 @@ namespace MineSweeper
             this._errorLog.Visible = false; // initially invisible
             this._errorLog.ControlBox = false; // no close button
 
-            //// set the default solver
+            // set the default solver
             this.comboBoxSolver.SelectedIndex = 0;
+
+            // disable highlighting of the grid
+            this.dataGridBoard.DefaultCellStyle.SelectionBackColor = this.dataGridBoard.DefaultCellStyle.BackColor;
+            this.dataGridBoard.DefaultCellStyle.SelectionForeColor = this.dataGridBoard.DefaultCellStyle.ForeColor;
         }
 
         public void InitializeGrid(Cell[,] grid)
         {
-            this.dataGridView1.Rows.Clear();
-            this.dataGridView1.ColumnCount = grid.GetLength(1);
+            this.dataGridBoard.Rows.Clear();
+            this.dataGridBoard.ColumnCount = grid.GetLength(1);
             for (var y = 0; y < grid.GetLength(0); y++)
             {
                 var row = new DataGridViewRow();
@@ -52,11 +56,11 @@ namespace MineSweeper
                     style.Alignment = DataGridViewContentAlignment.MiddleCenter;
                     style.Font = new Font(DefaultFont, FontStyle.Bold);
                 }
-                this.dataGridView1.Rows.Add(row);
+                this.dataGridBoard.Rows.Add(row);
             }
 
-            this.dataGridView1.ColumnHeadersVisible = false;
-            this.dataGridView1.RowHeadersVisible = false;
+            this.dataGridBoard.ColumnHeadersVisible = false;
+            this.dataGridBoard.RowHeadersVisible = false;
         }
 
         public void RedrawGrid(Cell[,] grid)
@@ -65,10 +69,10 @@ namespace MineSweeper
             if (this.checkBoxRealTimeRedraw.Checked || this._runnerTask.IsCompleted)
             {
                 this.SuspendLayout();
-                this.dataGridView1.ColumnCount = grid.GetLength(1);
+                this.dataGridBoard.ColumnCount = grid.GetLength(1);
                 for (var y = 0; y < grid.GetLength(0); y++)
                 {
-                    var row = this.dataGridView1.Rows[y];
+                    var row = this.dataGridBoard.Rows[y];
                     for (var x = 0; x < grid.GetLength(1); x++)
                     {
                         var cell = grid[y, x];
@@ -187,47 +191,6 @@ namespace MineSweeper
             this.RedrawGrid(run.Steps.ElementAt(stepIndex));
         }
 
-        protected override bool IsInputKey(Keys keyData)
-        {
-            switch (keyData)
-            {
-                case Keys.Right:
-                case Keys.Left:
-                case Keys.Up:
-                case Keys.Down:
-                    return true;
-                case Keys.Shift | Keys.Right:
-                case Keys.Shift | Keys.Left:
-                case Keys.Shift | Keys.Up:
-                case Keys.Shift | Keys.Down:
-                    return true;
-            }
-            return base.IsInputKey(keyData);
-        }
-
-        private void MineSweeperBoard_KeyDown(object sender, KeyEventArgs e)
-        {
-            switch (e.KeyCode)
-            {
-                case Keys.Left:
-                    this.comboBoxCurrentStep.SelectedIndex = Math.Max(this.comboBoxCurrentStep.SelectedIndex - 1, 0);
-                    this.comboBoxCurrentStep_SelectedIndexChanged(sender, e);
-                    break;
-                case Keys.Right:
-                    this.comboBoxCurrentStep.SelectedIndex = Math.Min(this.comboBoxCurrentStep.SelectedIndex + 1, this.comboBoxCurrentStep.Items.Count - 1);
-                    this.comboBoxCurrentStep_SelectedIndexChanged(sender, e);
-                    break;
-                case Keys.Up:
-                    this.comboBoxCurrentRun.SelectedIndex = Math.Min(this.comboBoxCurrentRun.SelectedIndex + 1, this.comboBoxCurrentRun.Items.Count - 1);
-                    this.comboBoxCurrentRun_SelectedIndexChanged(sender, e);
-                    break;
-                case Keys.Down:
-                    this.comboBoxCurrentRun.SelectedIndex = Math.Max(this.comboBoxCurrentRun.SelectedIndex - 1, 0);
-                    this.comboBoxCurrentRun_SelectedIndexChanged(sender, e);
-                    break;
-            }
-        }
-
         private void buttonToggleErrorLog_Click(object sender, EventArgs e)
         {
             if (this._errorLog.Visible)
@@ -248,5 +211,31 @@ namespace MineSweeper
         }
 
         #endregion
+
+        private void dataGridBoard_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (this._gameRunner?.GetGames()?.Count > 0)
+            {
+                switch (e.KeyCode)
+                {
+                    case Keys.Left:
+                        this.comboBoxCurrentStep.SelectedIndex = Math.Max(this.comboBoxCurrentStep.SelectedIndex - 1, 0);
+                        this.comboBoxCurrentStep_SelectedIndexChanged(sender, e);
+                        break;
+                    case Keys.Right:
+                        this.comboBoxCurrentStep.SelectedIndex = Math.Min(this.comboBoxCurrentStep.SelectedIndex + 1, this.comboBoxCurrentStep.Items.Count - 1);
+                        this.comboBoxCurrentStep_SelectedIndexChanged(sender, e);
+                        break;
+                    case Keys.Up:
+                        this.comboBoxCurrentRun.SelectedIndex = Math.Min(this.comboBoxCurrentRun.SelectedIndex + 1, this.comboBoxCurrentRun.Items.Count - 1);
+                        this.comboBoxCurrentRun_SelectedIndexChanged(sender, e);
+                        break;
+                    case Keys.Down:
+                        this.comboBoxCurrentRun.SelectedIndex = Math.Max(this.comboBoxCurrentRun.SelectedIndex - 1, 0);
+                        this.comboBoxCurrentRun_SelectedIndexChanged(sender, e);
+                        break;
+                }
+            }
+        }
     }
 }
