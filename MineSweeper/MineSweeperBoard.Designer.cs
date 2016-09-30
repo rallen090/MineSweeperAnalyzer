@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.dataGridBoard = new System.Windows.Forms.DataGridView();
             this.buttonRun = new System.Windows.Forms.Button();
             this.labelStatus = new System.Windows.Forms.Label();
             this.labelSize = new System.Windows.Forms.Label();
@@ -50,24 +50,25 @@
             this.buttonToggleErrorLog = new System.Windows.Forms.Button();
             this.buttonRerun = new System.Windows.Forms.Button();
             this.checkBoxRealTimeRedraw = new System.Windows.Forms.CheckBox();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridBoard)).BeginInit();
             this.SuspendLayout();
             // 
-            // dataGridView1
+            // dataGridBoard
             // 
-            this.dataGridView1.AllowUserToAddRows = false;
-            this.dataGridView1.AllowUserToDeleteRows = false;
-            this.dataGridView1.AllowUserToResizeColumns = false;
-            this.dataGridView1.AllowUserToResizeRows = false;
-            this.dataGridView1.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-            this.dataGridView1.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.DisplayedCells;
-            this.dataGridView1.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.Raised;
-            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Location = new System.Drawing.Point(13, 133);
-            this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.ReadOnly = true;
-            this.dataGridView1.Size = new System.Drawing.Size(608, 429);
-            this.dataGridView1.TabIndex = 0;
+            this.dataGridBoard.AllowUserToAddRows = false;
+            this.dataGridBoard.AllowUserToDeleteRows = false;
+            this.dataGridBoard.AllowUserToResizeColumns = false;
+            this.dataGridBoard.AllowUserToResizeRows = false;
+            this.dataGridBoard.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.dataGridBoard.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.DisplayedCells;
+            this.dataGridBoard.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.Raised;
+            this.dataGridBoard.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridBoard.Location = new System.Drawing.Point(13, 133);
+            this.dataGridBoard.Name = "dataGridBoard";
+            this.dataGridBoard.ReadOnly = true;
+            this.dataGridBoard.Size = new System.Drawing.Size(608, 429);
+            this.dataGridBoard.TabIndex = 0;
+            this.dataGridBoard.KeyDown += new System.Windows.Forms.KeyEventHandler(this.dataGridBoard_KeyDown);
             // 
             // buttonRun
             // 
@@ -299,11 +300,10 @@
             this.Controls.Add(this.labelSize);
             this.Controls.Add(this.labelStatus);
             this.Controls.Add(this.buttonRun);
-            this.Controls.Add(this.dataGridView1);
+            this.Controls.Add(this.dataGridBoard);
             this.Name = "MineSweeperBoard";
             this.Text = "MineSweeper Simulator";
-            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.MineSweeperBoard_KeyDown);
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridBoard)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -311,7 +311,7 @@
 
         #endregion
 
-        private System.Windows.Forms.DataGridView dataGridView1;
+        private System.Windows.Forms.DataGridView dataGridBoard;
         private System.Windows.Forms.Button buttonRun;
         private System.Windows.Forms.Label labelStatus;
         private System.Windows.Forms.Label labelSize;
