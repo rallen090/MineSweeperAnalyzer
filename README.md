@@ -1,6 +1,6 @@
 # MineSweeper Solution Analyzer
 
-MineSweeper Solution Analyzer is a native desktop application for analyzing and visualizing programmatic solution to the MineSweeper game.
+MineSweeper Solution Analyzer is a native desktop application for analyzing and visualizing programmatic solutions to the game MineSweeper.
 
 ![alt tag](https://github.com/rallen090/Solver/blob/master/Content/VisualizerDemo.JPG)
 
@@ -8,7 +8,7 @@ The app allows for Solver implementations in various languages which all pipe in
 
 ## Language support
 
-### C#
+### C\#
 
 ### Java
 
@@ -21,4 +21,4 @@ The app allows for Solver implementations in various languages which all pipe in
 TODO
 
 ## Release notes
-- 1.0.0 Initial release
+- 1.0.0-alpha Pre-release
