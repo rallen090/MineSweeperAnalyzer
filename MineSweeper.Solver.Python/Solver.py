@@ -3,7 +3,7 @@
 class Cell(object):
 	def __init__(self, x, y, value, state):
 		self.X = x
-		self.X = y
+		self.Y = y
 		self.Value = value
 		self.State = state
 
