@@ -8,7 +8,7 @@ namespace MineSweeper.Solver.CSharp
     {
         private readonly Queue<Move> _moves = new Queue<Move>();
 
-        public Move GetNextMove(Cell[,] grid)
+        public Move GetNextMove(Cell[,] grid, bool recursivelyExplore = false, int? nestLevel = null)
         {
             // process moves we already have planned
             if (this._moves.Count > 0)
@@ -23,15 +23,26 @@ namespace MineSweeper.Solver.CSharp
 
             // iterate the revealed value, giving priority to smaller values first
             var orderedRevealedValues = revealedValues.OrderBy(v => v.Value);
+            var hiddenCells = new HashSet<Cell>();
             foreach (var cell in orderedRevealedValues)
             {
                 var adjacentCells = this.GetAdjacentCells(grid, cell.X, cell.Y);
                 var flagCount = adjacentCells.Count(c => c.State == CellState.Flagged);
                 var hidden = adjacentCells.Where(c => c.State == CellState.Hidden).ToList();
+
+                // save off hidden cells for performance if we recurse
+                hidden.ForEach(h => hiddenCells.Add(h));
+
                 var relativeValue = cell.Value - flagCount;
 
+                // if while exploring, we set a flag that then causes a conflict, then bail
+                if (recursivelyExplore && relativeValue < 0)
+                {
+                    throw new Exception("Failed path");
+                }
+
                 // click if the value we have is already accounted for with flags
-                if (relativeValue == 0 && hidden.Count > 0)
+                if (relativeValue == 0 && hidden.Count > 0 && !recursivelyExplore /* cannot test clicks since we don't know values */)
                 {
                     // click all adjacent cells that are applicable (i.e. not clicked and not flagged)
                     return this.EnqueueExtraMoves(hidden, MoveType.Click);
@@ -44,7 +55,24 @@ namespace MineSweeper.Solver.CSharp
             }
 
             // recurse on a subsection and test flags
-
+            if (!nestLevel.HasValue || nestLevel < 2)
+            {
+                foreach (var hiddenCell in hiddenCells)
+                {
+                    hiddenCell.State = CellState.Flagged;
+                    try
+                    {
+                        this.GetNextMove(grid, recursivelyExplore: true, nestLevel: nestLevel.HasValue ? nestLevel + 1 : 1);
+                    }
+                    catch
+                    {
+                        // if we found a conflict when recursing with the test flag, then we know that this cell can be clicked
+                        return new Move { MoveType = MoveType.Click, X = hiddenCell.X, Y = hiddenCell.Y };
+                    }
+                    hiddenCell.State = CellState.Hidden;
+                }
+            }
+            
             // now just take the first open cell if we couldn't determine an actual good move
             foreach (var cell in grid)
             {

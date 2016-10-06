@@ -10,7 +10,6 @@ namespace MineSweeper.Solver.CSharp
     {
         public static void Main(string[] args)
         {
-            
             var adapter = new RemoteAdapter(new Solver());
             adapter.HandleMessages();
         }
