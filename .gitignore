@@ -1,27 +1,9 @@
-#Visual Studio files
+# Unneeded files
 *.obj
 *.exe
-*.pdb
-*.user
-*.aps
-*.pch
-*.vspscc
-*.vssscc
-*_i.c
-*_p.c
-*.ncb
-*.suo
-*.tlb
-*.tlh
-*.bak
-*.cache
-*.ilk
-*.log*
-*.lib
-*.sbr
-*.sdf
-ipch/
-obj/
-[Bb]in
-[Dd]ebug*/
-[Rr]elease*/
+# Unneeded folders
+[Oo]bj/
+[Rr]elease/
+[Dd]ebug/
+[Bb]in/
+
