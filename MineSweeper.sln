@@ -1,13 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.24720.0
+VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MineSweeper", "MineSweeper\MineSweeper.csproj", "{EE0225B4-53AF-4C59-B0AD-0D8946C39CE1}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MineSweeper.Solver.CSharp", "MineSweeper.Solver.CSharp\MineSweeper.Solver.CSharp.csproj", "{05132A18-4755-42E4-AF6F-B6CDB6DB4963}"
 EndProject
 Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "MineSweeper.Solver.Python", "MineSweeper.Solver.Python\MineSweeper.Solver.Python.pyproj", "{F5856B9D-262A-4209-ABB6-6431E9AEAFBB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MineSweeper.Analyzer", "MineSweeper.Analyzer\MineSweeper.Analyzer.csproj", "{EE0225B4-53AF-4C59-B0AD-0D8946C39CE1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,16 +15,16 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{EE0225B4-53AF-4C59-B0AD-0D8946C39CE1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{EE0225B4-53AF-4C59-B0AD-0D8946C39CE1}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{EE0225B4-53AF-4C59-B0AD-0D8946C39CE1}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{EE0225B4-53AF-4C59-B0AD-0D8946C39CE1}.Release|Any CPU.Build.0 = Release|Any CPU
 		{05132A18-4755-42E4-AF6F-B6CDB6DB4963}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{05132A18-4755-42E4-AF6F-B6CDB6DB4963}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{05132A18-4755-42E4-AF6F-B6CDB6DB4963}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{05132A18-4755-42E4-AF6F-B6CDB6DB4963}.Release|Any CPU.Build.0 = Release|Any CPU
 		{F5856B9D-262A-4209-ABB6-6431E9AEAFBB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{F5856B9D-262A-4209-ABB6-6431E9AEAFBB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EE0225B4-53AF-4C59-B0AD-0D8946C39CE1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EE0225B4-53AF-4C59-B0AD-0D8946C39CE1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EE0225B4-53AF-4C59-B0AD-0D8946C39CE1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EE0225B4-53AF-4C59-B0AD-0D8946C39CE1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
