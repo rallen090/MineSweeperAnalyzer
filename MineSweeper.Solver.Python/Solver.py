@@ -1,4 +1,4 @@
-#region ---- Models ----
+#region ---- Models (DO NOT MODIFY) ----
 
 class Cell(object):
 	def __init__(self, x, y, value, state):
@@ -23,8 +23,9 @@ class MoveType:
 	FLAG = 1
 
 #endregion
-
+ 
+# TODO: implement Solver
 class Solver(object):
-    # returns a Move given a grid, which is a 2D array of Cell objects 
-    def GetNextMove(self, grid):
-        return Move(1,2,0)
+	# returns a Move provided a MineSweeper grid, which is a 2D array of Cells
+	def GetNextMove(self, grid):
+		return None;

@@ -28,6 +28,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="RemoteAdapter.py" />
+    <Compile Include="BaseImplementationSolver.py" />
     <Compile Include="Solver.py" />
   </ItemGroup>
   <Import Condition="Exists($(PtvsTargetsFile))" Project="$(PtvsTargetsFile)" />

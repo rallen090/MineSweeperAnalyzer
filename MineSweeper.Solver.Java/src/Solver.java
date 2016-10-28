@@ -1,11 +1,13 @@
-
+// TODO: implement Solver
 public class Solver {
+	// returns a Move given a grid, which is a 2D array of Cell objects
 	public Move GetNextMove(Cell[][] grid)
     {
-		// TODO: implement solution here
 		return null;
     }
 }
+
+//region ---- Models (DO NOT MODIFY) ----
 
 class Cell
 {
@@ -34,3 +36,5 @@ enum MoveType
     Click,
     Flag
 }
+
+//endregion
