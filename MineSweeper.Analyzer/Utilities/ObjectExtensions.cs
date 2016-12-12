@@ -8,6 +8,7 @@ using MineSweeper.ArrayExtensions;
 
 namespace MineSweeper
 {
+    // originally copied from: https://github.com/Burtsev-Alexey/net-object-deep-copy/blob/master/ObjectExtensions.cs
     public static class ObjectExtensions
     {
         private static readonly MethodInfo CloneMethod = typeof(object).GetMethod("MemberwiseClone", BindingFlags.NonPublic | BindingFlags.Instance);
