@@ -1,6 +1,10 @@
 module.exports = {
+	// returns a Move provided a MineSweeper grid, which is a 2D array of Cells
 	getNextMove: function (grid){
-		return new Move(MoveType.CLICK, Math.floor((Math.random() * 10) + 0), Math.floor((Math.random() * 10) + 0));
+		// solver algorithm here...
+
+		// return next move
+		return new Move(MoveType.CLICK, /* X */ 1, /* Y */ 2);
 	}
 };
 

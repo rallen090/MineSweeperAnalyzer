@@ -28,4 +28,7 @@ class MoveType:
 class Solver(object):
 	# returns a Move provided a MineSweeper grid, which is a 2D array of Cells
 	def GetNextMove(self, grid):
-		return None;
+		# solver algorithm here...
+
+		# return next move
+		return Move(MoveType.CLICK, 1, 2);
