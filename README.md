@@ -70,7 +70,20 @@ enum MoveType
 Project: MineSweeper.Solver.CSharp
 File: Solver.cs
 ```
-// TODO: add here
+	// TODO: implement Solver
+    public class Solver
+    {
+		/// <summary>
+		/// Returns a <see cref="Move"/> provided a MineSweeper <paramref name="grid"/>, which is a 2D array of <see cref="Cell"/>s
+		/// </summary>
+		public Move GetNextMove(Cell[,] grid)
+		{
+			// solver algorithm here...
+
+			// return next move
+			return new Move { MoveType = MoveType.Click, X = 1, Y = 2 };
+		}
+	}
 ```
 
 ### Java
@@ -78,7 +91,19 @@ File: Solver.cs
 Project: MineSweeper.Solver.Java
 File: Solver.java
 ```
-// TODO: add here
+	// TODO: implement Solver
+	public class Solver {
+		/**
+		 * Returns a Move given a grid, which is a 2D array of Cell objects
+		 */
+		public Move GetNextMove(Cell[][] grid)
+		{
+			// solver algorithm here...
+			
+			// return next move
+			return new Move(MoveType.Click, 1, 2);
+		}
+	}
 ```
 
 ### Python
@@ -86,7 +111,14 @@ File: Solver.java
 Project: MineSweeper.Solver.Python
 File: Solver.py
 ```
-// TODO: add here
+	# TODO: implement Solver
+	class Solver(object):
+		# returns a Move provided a MineSweeper grid, which is a 2D array of Cells
+		def GetNextMove(self, grid):
+			# solver algorithm here...
+
+			# return next move
+			return Move(MoveType.CLICK, 1, 2);
 ```
 
 ### JavaScript via NodeJS
@@ -94,14 +126,43 @@ File: Solver.py
 Project: MineSweeper.Solver.JavaScript
 File: Solver.js
 ```
-// TODO: add here
+	module.exports = {
+		// returns a Move provided a MineSweeper grid, which is a 2D array of Cells
+		getNextMove: function (grid){
+			// solver algorithm here...
+
+			// return next move
+			return new Move(MoveType.CLICK, /* X */ 1, /* Y */ 2);
+		}
+	};
 ```
 
 ## Setup
 
+#### Requirements
+
+- [.NET](https://www.microsoft.com/net/download/framework) required to run the Analyzer (4.6)
+- [Visual Studio](https://www.visualstudio.com/thank-you-downloading-visual-studio/?sku=community) (recommended for C# solver support)
+- [Java](http://www.oracle.com/technetwork/java/javase/downloads/index.html) (required for Java solver support)
+- [Python](https://www.python.org/downloads/) (required for Python solver support)
+- [NodeJS](https://nodejs.org/en/download/) (required for JavaScript solver support)
+
+#### Manual
+
+- Clone this repository
+- Run Analyzer executable (MineSweeper\MineSweeper.Analyzer\bin\Debug\MineSweeper.Analyzer.exe) OR open solution in Visual Studio (MineSweeper\MineSweeper.sln)
+- To edit the solvers and run them, you must edit the the appropriate Solver file as described above which corresponds to a particular languages
+	- C# (requires compilation)
+	- Java (requires compilation)
+	- JavaScript with NodeJS (interpreted, no build required)
+	- Python (interpreted, no build required)
+	
+NOTE: feature for compiling solvers from the app itself is in development
+
 #### Installer
 
-#### Source (requires Visual Studio)
+In development - adding an installation project which can be downloaded and run to perform a native installation of all required components.
 
 ## Release notes
+- 1.1.0-alpha Pre-release with all languages supported
 - 1.0.0-alpha Pre-release

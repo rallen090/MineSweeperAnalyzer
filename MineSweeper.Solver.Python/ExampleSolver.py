@@ -13,7 +13,7 @@ class CellState:
 	REVEALED = 2
 
 class Move(object):
-	def __init__(self, x, y, moveType):
+	def __init__(self, moveType, x, y):
 		self.X = x
 		self.Y = y
 		self.MoveType = moveType
@@ -56,18 +56,18 @@ class Solver(object):
 					if possible_mine_count == value:
 						for neighbor in neighbors:
 							if neighbor.State == CellState.HIDDEN:
-								return Move(neighbor.X, neighbor.Y, MoveType.FLAG)
+								return Move(MoveType.FLAG, neighbor.X, neighbor.Y)
 
 					if flagged_mine_count == value and possible_mine_count > flagged_mine_count:
 						for neighbor in neighbors:
 							if neighbor.State == CellState.HIDDEN:
-								return Move(neighbor.X, neighbor.Y, MoveType.CLICK)
+								return Move(MoveType.CLICK, neighbor.X, neighbor.Y)
 
 		for x in range(n):
 			for y in range(n):
 				cell = grid[y][x]
 				if cell.State == CellState.HIDDEN:
-					return Move(cell.X, cell.Y, MoveType.CLICK)
+					return Move(MoveType.CLICK, cell.X, cell.Y)
 		# poss = [(x, y) for x in range(len(grid)) for y in range(len(grid[0])) if grid[y][x].State == CellState.HIDDEN]
 		# random.shuffle(poss)
 		# return Move(poss[0][0], poss[0][1], MoveType.CLICK)
