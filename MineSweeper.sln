@@ -9,6 +9,20 @@ Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "MineSweeper.Solver.Python",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MineSweeper.Analyzer", "MineSweeper.Analyzer\MineSweeper.Analyzer.csproj", "{EE0225B4-53AF-4C59-B0AD-0D8946C39CE1}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "MineSweeper.Solver.JavaScript", "MineSweeper.Solver.JavaScript", "{43B5C2E8-0B21-4B55-BCAC-FD3F6A85ACEB}"
+	ProjectSection(SolutionItems) = preProject
+		MineSweeper.Solver.JavaScript\RemoteAdapter.js = MineSweeper.Solver.JavaScript\RemoteAdapter.js
+		MineSweeper.Solver.JavaScript\Solver.js = MineSweeper.Solver.JavaScript\Solver.js
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "MineSweeper.Solver.Java", "MineSweeper.Solver.Java", "{B9121294-F3A6-4502-A57A-617486294EF4}"
+	ProjectSection(SolutionItems) = preProject
+		MineSweeper.Solver.Java\src\Program.java = MineSweeper.Solver.Java\src\Program.java
+		MineSweeper.Solver.Java\src\RemoteAdapter.java = MineSweeper.Solver.Java\src\RemoteAdapter.java
+		MineSweeper.Solver.Java\src\Solver.java = MineSweeper.Solver.Java\src\Solver.java
+		MineSweeper.Solver.Java\src\SolverImplementationException.java = MineSweeper.Solver.Java\src\SolverImplementationException.java
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
