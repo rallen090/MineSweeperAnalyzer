@@ -1,9 +1,14 @@
 // TODO: implement Solver
 public class Solver {
-	// returns a Move given a grid, which is a 2D array of Cell objects
+	/**
+     * Returns a Move given a grid, which is a 2D array of Cell objects
+     */
 	public Move GetNextMove(Cell[][] grid)
     {
-		return null;
+		// solver algorithm here...
+		
+		// return next move
+		return new Move(MoveType.Click, 1, 2);
     }
 }
 
@@ -26,9 +31,15 @@ enum CellState
 
 class Move
 {
-    public MoveType MoveType;
-    public int X;
-    public int Y;
+	public Move(MoveType moveType, int x, int y){
+		this.X = x;
+		this.Y = y;
+		this.MoveType = moveType;
+	}
+
+	public MoveType MoveType;
+	public int X;
+	public int Y;
 }
 
 enum MoveType

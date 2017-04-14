@@ -12,7 +12,10 @@ namespace MineSweeper.Solver.CSharp
 		/// </summary>
 		public Move GetNextMove(Cell[,] grid)
 		{
-			return null;
+			// solver algorithm here...
+
+			// return next move
+			return new Move { MoveType = MoveType.Click, X = 1, Y = 2 };
 		}
 	}
 
