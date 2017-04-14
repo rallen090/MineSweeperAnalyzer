@@ -70,20 +70,21 @@ enum MoveType
 Project: MineSweeper.Solver.CSharp
 File: Solver.cs
 ```csharp
-	// TODO: implement Solver
-    public class Solver
-    {
-		/// <summary>
-		/// Returns a <see cref="Move"/> provided a MineSweeper <paramref name="grid"/>, which is a 2D array of <see cref="Cell"/>s
-		/// </summary>
-		public Move GetNextMove(Cell[,] grid)
-		{
-			// solver algorithm here...
+// TODO: implement Solver
+public class Solver
+{
+	/// <summary>
+	/// Returns a <see cref="Move"/> provided a MineSweeper <paramref name="grid"/>, 
+	/// which is a 2D array of <see cref="Cell"/>s
+	/// </summary>
+	public Move GetNextMove(Cell[,] grid)
+	{
+		// solver algorithm here...
 
-			// return next move
-			return new Move { MoveType = MoveType.Click, X = 1, Y = 2 };
-		}
+		// return next move
+		return new Move { MoveType = MoveType.Click, X = 1, Y = 2 };
 	}
+}
 ```
 
 ### Java
@@ -91,19 +92,19 @@ File: Solver.cs
 Project: MineSweeper.Solver.Java
 File: Solver.java
 ```java
-	// TODO: implement Solver
-	public class Solver {
-		/**
-		 * Returns a Move given a grid, which is a 2D array of Cell objects
-		 */
-		public Move GetNextMove(Cell[][] grid)
-		{
-			// solver algorithm here...
-			
-			// return next move
-			return new Move(MoveType.Click, 1, 2);
-		}
+// TODO: implement Solver
+public class Solver {
+	/**
+	 * Returns a Move given a grid, which is a 2D array of Cell objects
+	 */
+	public Move GetNextMove(Cell[][] grid)
+	{
+		// solver algorithm here...
+		
+		// return next move
+		return new Move(MoveType.Click, 1, 2);
 	}
+}
 ```
 
 ### Python
@@ -111,14 +112,14 @@ File: Solver.java
 Project: MineSweeper.Solver.Python
 File: Solver.py
 ```python
-	# TODO: implement Solver
-	class Solver(object):
-		# returns a Move provided a MineSweeper grid, which is a 2D array of Cells
-		def GetNextMove(self, grid):
-			# solver algorithm here...
+# TODO: implement Solver
+class Solver(object):
+	# returns a Move provided a MineSweeper grid, which is a 2D array of Cells
+	def GetNextMove(self, grid):
+		# solver algorithm here...
 
-			# return next move
-			return Move(MoveType.CLICK, 1, 2);
+		# return next move
+		return Move(MoveType.CLICK, 1, 2);
 ```
 
 ### JavaScript via NodeJS
@@ -126,15 +127,15 @@ File: Solver.py
 Project: MineSweeper.Solver.JavaScript
 File: Solver.js
 ```javascript
-	module.exports = {
-		// returns a Move provided a MineSweeper grid, which is a 2D array of Cells
-		getNextMove: function (grid){
-			// solver algorithm here...
+module.exports = {
+	// returns a Move provided a MineSweeper grid, which is a 2D array of Cells
+	getNextMove: function (grid){
+		// solver algorithm here...
 
-			// return next move
-			return new Move(MoveType.CLICK, /* X */ 1, /* Y */ 2);
-		}
-	};
+		// return next move
+		return new Move(MoveType.CLICK, /* X */ 1, /* Y */ 2);
+	}
+};
 ```
 
 ## Setup
