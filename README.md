@@ -162,7 +162,7 @@ NOTE: feature for compiling solvers from the app itself is in development
 
 #### Installer
 
-In development - adding an installation project which can be downloaded and run to perform a native installation of all required components.
+In development - currently adding an installation project which can be downloaded and run to perform a native installation of all required components.
 
 ## Release notes
 - 1.1.0-alpha Pre-release with all languages supported
