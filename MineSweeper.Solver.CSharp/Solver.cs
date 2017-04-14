@@ -8,7 +8,8 @@ namespace MineSweeper.Solver.CSharp
     public class Solver
     {
 		/// <summary>
-		/// Returns a <see cref="Move"/> provided a MineSweeper <paramref name="grid"/>, which is a 2D array of <see cref="Cell"/>s
+		/// Returns a <see cref="Move"/> provided a MineSweeper <paramref name="grid"/>, 
+		/// which is a 2D array of <see cref="Cell"/>s
 		/// </summary>
 		public Move GetNextMove(Cell[,] grid)
 		{
