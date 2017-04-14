@@ -69,7 +69,7 @@ enum MoveType
 
 Project: MineSweeper.Solver.CSharp
 File: Solver.cs
-```
+```csharp
 	// TODO: implement Solver
     public class Solver
     {
@@ -90,7 +90,7 @@ File: Solver.cs
 
 Project: MineSweeper.Solver.Java
 File: Solver.java
-```
+```java
 	// TODO: implement Solver
 	public class Solver {
 		/**
@@ -110,7 +110,7 @@ File: Solver.java
 
 Project: MineSweeper.Solver.Python
 File: Solver.py
-```
+```python
 	# TODO: implement Solver
 	class Solver(object):
 		# returns a Move provided a MineSweeper grid, which is a 2D array of Cells
@@ -125,7 +125,7 @@ File: Solver.py
 
 Project: MineSweeper.Solver.JavaScript
 File: Solver.js
-```
+```javascript
 	module.exports = {
 		// returns a Move provided a MineSweeper grid, which is a 2D array of Cells
 		getNextMove: function (grid){
