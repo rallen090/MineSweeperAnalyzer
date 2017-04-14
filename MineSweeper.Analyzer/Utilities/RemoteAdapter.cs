@@ -19,7 +19,7 @@ namespace MineSweeper.Utilities
             this._command.StandardInput.WriteLine(message);
             string response = null;
             string error = null;
-            while (string.IsNullOrWhiteSpace(response = this._command.StandardOutput.ReadLine()) && string.IsNullOrWhiteSpace(error = this._command.StandardError.ReadLine()))
+            while (string.IsNullOrWhiteSpace(response = this._command.StandardOutput.ReadLine()) && string.IsNullOrWhiteSpace(error = this._command.StandardError.ReadToEnd()))
             {
                 // wait for valid response or error
             }
@@ -70,7 +70,7 @@ namespace MineSweeper.Utilities
 		private static readonly Lazy<string> CSharpSolverPath = new Lazy<string>(
 			() => Path.Combine(FileHelpers.FindFolderAbove("MineSweeper.Solver.CSharp", Directory.GetCurrentDirectory()), @"bin\Debug\MineSweeper.Solver.CSharp.exe"));
 		private static readonly Lazy<string> JavaScriptSolverPath = new Lazy<string>(
-			() => Path.Combine(FileHelpers.FindFolderAbove("MineSweeper.Solver.JavaScript", Directory.GetCurrentDirectory()), "RemoteSolver.js"));
+			() => Path.Combine(FileHelpers.FindFolderAbove("MineSweeper.Solver.JavaScript", Directory.GetCurrentDirectory()), "RemoteAdapter.js"));
 
 		#endregion
 	}
