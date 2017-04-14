@@ -19,7 +19,9 @@ namespace MineSweeper.Solvers
                     return () => new RemoteSolver(RemoteAdapter.CreateJavaAdapter());
                 case "CSharp":
                     return () => new RemoteSolver(RemoteAdapter.CreateCSharpAdapter());
-                default:
+				case "JavaScript (NodeJS)":
+					return () => new RemoteSolver(RemoteAdapter.CreateJavaScriptAdapter());
+				default:
                     throw new NotImplementedException($"Solver '{selectedSolverString}' is not implemented");
             }
         }
