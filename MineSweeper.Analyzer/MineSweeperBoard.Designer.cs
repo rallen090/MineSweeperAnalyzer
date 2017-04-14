@@ -235,7 +235,8 @@
             "LocalRandom",
             "Python",
             "Java",
-            "CSharp"});
+			"JavaScript (NodeJS)",
+			"CSharp"});
 			this.comboBoxSolver.Location = new System.Drawing.Point(226, 82);
 			this.comboBoxSolver.Name = "comboBoxSolver";
 			this.comboBoxSolver.Size = new System.Drawing.Size(121, 21);
