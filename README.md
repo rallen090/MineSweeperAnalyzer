@@ -10,7 +10,7 @@ The app allows for Solver implementations in various languages which all pipe in
 
 The app runs code from implementations of a Solver component. The general API and skeleton are as follows:
 
-```
+```csharp
 // any custom code within the Solver is valid
 class Solver
 {
@@ -26,7 +26,7 @@ class Solver
 
 Cell and Move are set members of the API which cannot be modified since they are how the app and custom Solvers can communicate. Cell and Move are defined as follows:
 
-```
+```csharp
 class Cell
 {
 	// the X coordinate of the cell on the grid
