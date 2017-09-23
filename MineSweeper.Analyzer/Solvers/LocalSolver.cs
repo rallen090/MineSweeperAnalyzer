@@ -25,6 +25,7 @@ namespace MineSweeper.Solvers
 
 			// iterate the revealed value, giving priority to smaller values first
 			var orderedRevealedValues = revealedValues;
+			var remainingRevealedValues = new List<CellInfo>();
 			foreach (var cell in orderedRevealedValues)
 			{
 				var adjacentCells = this.GetAdjacentCells(grid, cell.X, cell.Y);
@@ -44,6 +45,75 @@ namespace MineSweeper.Solvers
 				{
 					return this.EnqueueExtraMoves(hidden, MoveType.Flag);
 				}
+				// save off revealed cells which we have not exhausted the flags for yet
+				if (relativeValue > 0)
+				{
+					remainingRevealedValues.Add(new CellInfo
+					{
+						Cell = cell,
+						AdjacentCells = adjacentCells,
+						RemainingValue = relativeValue,
+						FlagCount = flagCount
+					});
+				}
+			}
+
+			//// choose on inference
+			//var orderedSubsets = remainingRevealedValues.Select(c => new
+			//{
+			//	cell = c,
+			//	eligibleNeighbors = this.GetAdjacentCells(grid, c.Cell.X, c.Cell.Y).Where(e => e.State == CellState.Hidden).ToList()
+			//})
+			//.OrderByDescending(c => c.eligibleNeighbors.Count)
+			//.ToList();
+
+			//for (var i = 0; i < orderedSubsets.Count - 1; i++)
+			//{
+			//	var current = orderedSubsets[i];
+			//	var currentSet = orderedSubsets[i].eligibleNeighbors;
+			//	var firstSuperset = orderedSubsets.Skip(1).FirstOrDefault(s =>
+			//	{
+			//		// subset if (a) the super is > in size to the sub, (b) the remaining bomb counts match, and (c) subset is contained in superset
+			//		var isSubset = currentSet.Count < s.eligibleNeighbors.Count
+			//			&& current.cell.RemainingValue == s.cell.RemainingValue
+			//			&& currentSet.All(s.eligibleNeighbors.Contains);
+			//		return isSubset;
+			//	});
+			//	if (firstSuperset != null)
+			//	{
+			//		var excluded = new HashSet<Tuple<int, int>>(currentSet.Select(p => Tuple.Create(p.X, p.Y)));
+			//		var symmetricDifference = firstSuperset.eligibleNeighbors.Where(p => !excluded.Contains(Tuple.Create(p.X, p.Y))).ToList();
+
+			//		if (symmetricDifference.Any(s => s.IsMine))
+			//		{
+			//			Console.WriteLine("Symmetric difference incorrect");
+			//		}
+
+			//		return this.EnqueueExtraMoves(symmetricDifference, MoveType.Click);
+			//	}
+			//}
+
+			// choose on cell probabilities
+			var remainingHiddenCells = grid.Cast<Cell>()
+				.Where(cell => cell.State == CellState.Hidden)
+				.Select(c => new CellProbability { Cell = c, Probability = 0.0 })
+				.ToList();
+			foreach (var cell in remainingRevealedValues)
+			{
+				var hiddenCells = cell.AdjacentCells.Where(h => h.State == CellState.Hidden).ToList();
+				var incrementalProbability = (double)cell.RemainingValue / hiddenCells.Count;
+				hiddenCells.ForEach(c => remainingHiddenCells.Single(r => r.Cell.X == c.X && r.Cell.Y == c.Y).Probability += incrementalProbability);
+			}
+			// assign untouched cell probability based on bomb count
+			//var remainingBombCount = 10 - grid.Cast<Cell>().Count(c => c.State == CellState.Flagged);
+			//var cellsWithoutProbability = remainingHiddenCells.Where(c => c.Probability == null).ToList();
+			//var globalProbability = (double)remainingBombCount / cellsWithoutProbability.Count;
+			//cellsWithoutProbability.ForEach(c => c.Probability = globalProbability);
+
+			var leastLikelyCellToClick = remainingHiddenCells.OrderBy(r => r.Probability).Select(s => s.Cell).FirstOrDefault();
+			if (leastLikelyCellToClick != null)
+			{
+				return this.EnqueueExtraMoves(new List<Cell> { leastLikelyCellToClick }, MoveType.Click);
 			}
 
 			// now just take the first open cell if we couldn't determine an actual good move
@@ -113,5 +183,19 @@ namespace MineSweeper.Solvers
 		public void Dispose()
         {
         }
+
+	    private class CellInfo
+	    {
+		    public Cell Cell { get; set; }
+			public IReadOnlyList<Cell> AdjacentCells { get; set; }
+			public int RemainingValue { get; set; }
+			public int FlagCount { get; set; }
+		}
+
+	    public class CellProbability
+	    {
+		    public Cell Cell { get; set; }
+			public double? Probability { get; set; }
+	    }
     }
 }
