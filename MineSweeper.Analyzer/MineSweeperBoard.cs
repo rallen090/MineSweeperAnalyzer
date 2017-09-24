@@ -237,5 +237,19 @@ namespace MineSweeper
                 }
             }
         }
-    }
+
+		private void buttonSaveJson_Click(object sender, EventArgs e)
+		{
+			if (this.comboBoxCurrentRun?.SelectedIndex != null)
+			{
+				var json = this._gameRunner.GetGameGridJson(this.comboBoxCurrentRun.SelectedIndex);
+				Clipboard.SetText(json);
+			}
+		}
+
+		private void buttonLoadJson_Click(object sender, EventArgs e)
+		{
+			this._gameRunner.LoadGameGridJson(Clipboard.GetText());
+		}
+	}
 }

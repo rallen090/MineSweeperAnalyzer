@@ -50,6 +50,8 @@
 			this.buttonToggleErrorLog = new System.Windows.Forms.Button();
 			this.buttonRerun = new System.Windows.Forms.Button();
 			this.checkBoxRealTimeRedraw = new System.Windows.Forms.CheckBox();
+			this.buttonSaveJson = new System.Windows.Forms.Button();
+			this.buttonLoadJson = new System.Windows.Forms.Button();
 			((System.ComponentModel.ISupportInitialize)(this.dataGridBoard)).BeginInit();
 			this.SuspendLayout();
 			// 
@@ -235,8 +237,8 @@
             "LocalRandom",
             "Python",
             "Java",
-			"JavaScript (NodeJS)",
-			"CSharp"});
+            "JavaScript (NodeJS)",
+            "CSharp"});
 			this.comboBoxSolver.Location = new System.Drawing.Point(226, 82);
 			this.comboBoxSolver.Name = "comboBoxSolver";
 			this.comboBoxSolver.Size = new System.Drawing.Size(121, 21);
@@ -274,12 +276,34 @@
 			this.checkBoxRealTimeRedraw.Text = "Real-time redraw";
 			this.checkBoxRealTimeRedraw.UseVisualStyleBackColor = true;
 			// 
+			// buttonSaveJson
+			// 
+			this.buttonSaveJson.Location = new System.Drawing.Point(503, 85);
+			this.buttonSaveJson.Name = "buttonSaveJson";
+			this.buttonSaveJson.Size = new System.Drawing.Size(46, 21);
+			this.buttonSaveJson.TabIndex = 22;
+			this.buttonSaveJson.Text = "Save";
+			this.buttonSaveJson.UseVisualStyleBackColor = true;
+			this.buttonSaveJson.Click += new System.EventHandler(this.buttonSaveJson_Click);
+			// 
+			// buttonLoadJson
+			// 
+			this.buttonLoadJson.Location = new System.Drawing.Point(568, 85);
+			this.buttonLoadJson.Name = "buttonLoadJson";
+			this.buttonLoadJson.Size = new System.Drawing.Size(43, 21);
+			this.buttonLoadJson.TabIndex = 23;
+			this.buttonLoadJson.Text = "Load";
+			this.buttonLoadJson.UseVisualStyleBackColor = true;
+			this.buttonLoadJson.Click += new System.EventHandler(this.buttonLoadJson_Click);
+			// 
 			// MineSweeperBoard
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.AutoSize = true;
 			this.ClientSize = new System.Drawing.Size(633, 567);
+			this.Controls.Add(this.buttonLoadJson);
+			this.Controls.Add(this.buttonSaveJson);
 			this.Controls.Add(this.checkBoxRealTimeRedraw);
 			this.Controls.Add(this.buttonRerun);
 			this.Controls.Add(this.buttonToggleErrorLog);
@@ -334,6 +358,8 @@
         private System.Windows.Forms.Button buttonToggleErrorLog;
         private System.Windows.Forms.Button buttonRerun;
         private System.Windows.Forms.CheckBox checkBoxRealTimeRedraw;
-    }
+		private System.Windows.Forms.Button buttonSaveJson;
+		private System.Windows.Forms.Button buttonLoadJson;
+	}
 }
 

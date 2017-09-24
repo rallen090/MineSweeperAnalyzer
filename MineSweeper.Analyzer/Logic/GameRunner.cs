@@ -4,6 +4,7 @@ using System.Linq;
 using System.Windows.Forms;
 using MineSweeper.Models;
 using MineSweeper.Solvers;
+using Newtonsoft.Json;
 
 namespace MineSweeper.Logic
 {
@@ -48,7 +49,22 @@ namespace MineSweeper.Logic
             this.RunOne(game, initialGrid);
         }
 
-        private void RunOne(Game game, Cell[,] initialGrid)
+	    public void LoadGameGridJson(string json)
+	    {
+		    var grid = JsonConvert.DeserializeObject<Cell[,]>(json);
+			var game = new Game();
+			this._games.Add(game);
+			this.RunOne(game, grid);
+		}
+
+	    public string GetGameGridJson(int index)
+		{
+			var game = this._games[index];
+			var initialGrid = game.Steps.First();
+			return JsonConvert.SerializeObject(initialGrid);
+		}
+
+		private void RunOne(Game game, Cell[,] initialGrid)
         {
             using (var solver = this._solverFactory())
             {

@@ -58,40 +58,40 @@ namespace MineSweeper.Solvers
 				}
 			}
 
-			//// choose on inference
-			//var orderedSubsets = remainingRevealedValues.Select(c => new
-			//{
-			//	cell = c,
-			//	eligibleNeighbors = this.GetAdjacentCells(grid, c.Cell.X, c.Cell.Y).Where(e => e.State == CellState.Hidden).ToList()
-			//})
-			//.OrderByDescending(c => c.eligibleNeighbors.Count)
-			//.ToList();
+			// choose on inference
+			var orderedSubsets = remainingRevealedValues.Select(c => new
+			{
+				cell = c,
+				eligibleNeighbors = this.GetAdjacentCells(grid, c.Cell.X, c.Cell.Y).Where(e => e.State == CellState.Hidden).ToList()
+			})
+			.OrderByDescending(c => c.eligibleNeighbors.Count)
+			.ToList();
 
-			//for (var i = 0; i < orderedSubsets.Count - 1; i++)
-			//{
-			//	var current = orderedSubsets[i];
-			//	var currentSet = orderedSubsets[i].eligibleNeighbors;
-			//	var firstSuperset = orderedSubsets.Skip(1).FirstOrDefault(s =>
-			//	{
-			//		// subset if (a) the super is > in size to the sub, (b) the remaining bomb counts match, and (c) subset is contained in superset
-			//		var isSubset = currentSet.Count < s.eligibleNeighbors.Count
-			//			&& current.cell.RemainingValue == s.cell.RemainingValue
-			//			&& currentSet.All(s.eligibleNeighbors.Contains);
-			//		return isSubset;
-			//	});
-			//	if (firstSuperset != null)
-			//	{
-			//		var excluded = new HashSet<Tuple<int, int>>(currentSet.Select(p => Tuple.Create(p.X, p.Y)));
-			//		var symmetricDifference = firstSuperset.eligibleNeighbors.Where(p => !excluded.Contains(Tuple.Create(p.X, p.Y))).ToList();
+			for (var i = 0; i < orderedSubsets.Count - 1; i++)
+			{
+				var current = orderedSubsets[i];
+				var currentSet = orderedSubsets[i].eligibleNeighbors;
+				var firstSuperset = orderedSubsets.Skip(1).FirstOrDefault(s =>
+				{
+					// subset if (a) the super is > in size to the sub, (b) the remaining bomb counts match, and (c) subset is contained in superset
+					var isSubset = currentSet.Count < s.eligibleNeighbors.Count
+						&& current.cell.RemainingValue == s.cell.RemainingValue
+						&& currentSet.All(s.eligibleNeighbors.Contains);
+					return isSubset;
+				});
+				if (firstSuperset != null)
+				{
+					var excluded = new HashSet<Tuple<int, int>>(currentSet.Select(p => Tuple.Create(p.X, p.Y)));
+					var symmetricDifference = firstSuperset.eligibleNeighbors.Where(p => !excluded.Contains(Tuple.Create(p.X, p.Y))).ToList();
 
-			//		if (symmetricDifference.Any(s => s.IsMine))
-			//		{
-			//			Console.WriteLine("Symmetric difference incorrect");
-			//		}
+					if (symmetricDifference.Any(s => s.IsMine))
+					{
+						Console.WriteLine("Symmetric difference incorrect");
+					}
 
-			//		return this.EnqueueExtraMoves(symmetricDifference, MoveType.Click);
-			//	}
-			//}
+					return this.EnqueueExtraMoves(symmetricDifference, MoveType.Click);
+				}
+			}
 
 			// choose on cell probabilities
 			var remainingHiddenCells = grid.Cast<Cell>()
