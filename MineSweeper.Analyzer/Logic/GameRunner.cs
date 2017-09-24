@@ -49,9 +49,8 @@ namespace MineSweeper.Logic
             this.RunOne(game, initialGrid);
         }
 
-	    public void LoadGameGridJson(string json)
+	    public void LoadGameGridJson(Cell[,] grid)
 	    {
-		    var grid = JsonConvert.DeserializeObject<Cell[,]>(json);
 			var game = new Game();
 			this._games.Add(game);
 			this.RunOne(game, grid);

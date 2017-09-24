@@ -7,6 +7,7 @@ using System.Windows.Forms;
 using MineSweeper.Logic;
 using MineSweeper.Models;
 using MineSweeper.Solvers;
+using Newtonsoft.Json;
 
 namespace MineSweeper
 {
@@ -254,7 +255,16 @@ namespace MineSweeper
 		private void buttonLoadJson_Click(object sender, EventArgs e)
 		{
 			var clipboardText = Clipboard.GetText();
-			this._runnerTask = Task.Run(() => this._gameRunner.LoadGameGridJson(clipboardText));
+			var grid = JsonConvert.DeserializeObject<Cell[,]>(clipboardText);
+			if (this._gameRunner == null)
+			{
+				var xSize = grid.GetLength(0);
+				var ySize = grid.GetLength(1);
+				var mineCount = grid.Cast<Cell>().Count(c => c.IsMine);
+				var solverType = this.comboBoxSolver.SelectedItem.ToString();
+				this._gameRunner = new GameRunner(xSize, ySize, mineCount, 1, this, SolverSelector.GetSolverFactory(solverType));
+			}
+			this._runnerTask = Task.Run(() => this._gameRunner.LoadGameGridJson(grid));
 		}
 	}
 }
