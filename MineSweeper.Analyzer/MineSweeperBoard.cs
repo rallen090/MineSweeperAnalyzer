@@ -207,7 +207,11 @@ namespace MineSweeper
 
         private void buttonRerun_Click(object sender, EventArgs e)
         {
-            this._gameRunner.Rerun(this.comboBoxCurrentRun.SelectedIndex);
+	        if (this.comboBoxCurrentRun?.SelectedIndex != null)
+	        {
+		        var selectedRunId = this.comboBoxCurrentRun.SelectedIndex;
+				this._runnerTask = Task.Run(() => this._gameRunner.Rerun(selectedRunId));
+			}
         }
 
         #endregion
@@ -249,7 +253,8 @@ namespace MineSweeper
 
 		private void buttonLoadJson_Click(object sender, EventArgs e)
 		{
-			this._gameRunner.LoadGameGridJson(Clipboard.GetText());
+			var clipboardText = Clipboard.GetText();
+			this._runnerTask = Task.Run(() => this._gameRunner.LoadGameGridJson(clipboardText));
 		}
 	}
 }
