@@ -53,7 +53,9 @@ namespace MineSweeper.Solvers
             {
                 // move format is [X, Y, MoveType]
                 move = JsonConvert.DeserializeObject<Move>(line);
-                return true;
+
+				// validate enum value since deserializing allows for the enum value to not be bounded
+                return Enum.IsDefined(typeof(MoveType), move.MoveType);
             }
             catch
             {

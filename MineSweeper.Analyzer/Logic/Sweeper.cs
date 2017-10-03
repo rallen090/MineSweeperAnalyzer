@@ -47,7 +47,10 @@ namespace MineSweeper.Logic
                 case MoveType.Click:
                     if (cell.State == CellState.Revealed)
                     {
-                        throw new Exception("You've already clicked this spot!");
+						// considering throwing when prodiced duplicate clicks - but going more generous route of just no-oping.
+						// this also then has potential to get stuck in a loop if the solver spits back the same already-clicked cell indefinitely
+                        // throw new Exception("You've already clicked this spot!");
+	                    return grid;
                     }
 
                     cell.State = CellState.Revealed;

@@ -1,6 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 using Medallion.Shell;
 
 namespace MineSweeper.Utilities
@@ -17,22 +20,53 @@ namespace MineSweeper.Utilities
         public string SendMessage(string message)
         {
             this._command.StandardInput.WriteLine(message);
-            string response = null;
-            string error = null;
-            while (string.IsNullOrWhiteSpace(response = this._command.StandardOutput.ReadLine()) && string.IsNullOrWhiteSpace(error = this._command.StandardError.ReadToEnd()))
-            {
-                // wait for valid response or error
-            }
 
-            if (!string.IsNullOrEmpty(error))
+			var cancellationSource = new CancellationTokenSource();
+	        var readTasks = new List<Task<string>>
+	        {
+				this.ReadMessageAsync(this._command, cancellationSource.Token),
+				this.ReadErrorAsync(this._command, cancellationSource.Token)
+			};
+	        var firstResponseTask = Task.WhenAny(readTasks).Result;
+	        var response = firstResponseTask.Result;
+	        var isError = firstResponseTask == readTasks[1];
+			cancellationSource.Cancel();
+
+            if (isError)
             {
-                throw new Exception(error);
+                throw new Exception(response);
             }
 
             return response;
         }
 
-        public void Dispose()
+	    private async Task<string> ReadMessageAsync(Command command, CancellationToken cancellationToken)
+	    {
+		    string response;
+		    while (string.IsNullOrWhiteSpace(response = await command.StandardOutput.ReadLineAsync().ConfigureAwait(false)))
+		    {
+			    if (cancellationToken.IsCancellationRequested)
+			    {
+					cancellationToken.ThrowIfCancellationRequested();
+				}
+		    }
+		    return response;
+	    }
+
+		private async Task<string> ReadErrorAsync(Command command, CancellationToken cancellationToken)
+		{
+			string error;
+			while (string.IsNullOrWhiteSpace(error = await command.StandardError.ReadLineAsync().ConfigureAwait(false)))
+			{
+				if (cancellationToken.IsCancellationRequested)
+				{
+					cancellationToken.ThrowIfCancellationRequested();
+				}
+			}
+			return error;
+		}
+
+		public void Dispose()
         {
             this._command.Kill();
         }
