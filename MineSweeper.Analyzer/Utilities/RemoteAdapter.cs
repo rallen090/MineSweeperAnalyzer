@@ -12,72 +12,34 @@ namespace MineSweeper.Utilities
     public class RemoteAdapter : IDisposable
     {
         private readonly Command _command;
+	    private readonly CommandQueue _commandQueue;
 
         private RemoteAdapter(Command command)
         {
             this._command = command;
+			this._commandQueue = new CommandQueue(this._command);
+
+			this._commandQueue.Start();
         }
 
         public string SendMessage(string message)
         {
             this._command.StandardInput.WriteLine(message);
 
-			var cancellationSource = new CancellationTokenSource();
-	        var readTasks = new List<Task<string>>
-	        {
-				this.ReadMessageAsync(this._command, cancellationSource.Token),
-				this.ReadErrorAsync(this._command, cancellationSource.Token)
-			};
-	        var firstResponseTask = Task.WhenAny(readTasks).Result;
-	        var response = firstResponseTask.Result;
-	        var isError = firstResponseTask == readTasks[1];
-			cancellationSource.Cancel();
+	        var nextMessage = this._commandQueue.GetNextMessageAsync().Result;
 
-            if (isError)
+            if (nextMessage.MessageType == CommandQueue.CommandQueueMessageType.StandardError)
             {
-                throw new Exception(response);
+                throw new Exception(nextMessage.Message);
             }
 
-            return response;
+            return nextMessage.Message;
         }
-
-	    private async Task<string> ReadMessageAsync(Command command, CancellationToken cancellationToken)
-	    {
-		    string response;
-		    while (string.IsNullOrWhiteSpace(response = await command.StandardOutput.ReadLineAsync().WithCancellation(cancellationToken).ConfigureAwait(false)))
-		    {
-			    if (cancellationToken.IsCancellationRequested)
-			    {
-					cancellationToken.ThrowIfCancellationRequested();
-				}
-		    }
-		    return response;
-	    }
-
-		private async Task<string> ReadErrorAsync(Command command, CancellationToken cancellationToken)
-		{
-			try
-			{
-				string error;
-				while (string.IsNullOrWhiteSpace(error = await command.StandardError.ReadLineAsync().WithCancellation(cancellationToken).ConfigureAwait(false)))
-				{
-					if (cancellationToken.IsCancellationRequested)
-					{
-						cancellationToken.ThrowIfCancellationRequested();
-					}
-				}
-				return error;
-			}
-			// TODO: build a queue for reading std out and error and process that asynchronously so we don't get stream-closed errors
-			catch (Exception ex)
-			{
-				return null;
-			}
-		}
 
 		public void Dispose()
         {
-            this._command.Kill();
+			this._commandQueue.Dispose();
+			this._command.Kill();
         }
 
         #region ---- Adapter Types ----

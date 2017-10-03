@@ -94,6 +94,7 @@
     <Compile Include="Solvers\BaseImplementationSolver.cs" />
     <Compile Include="Solvers\SolverSelector.cs" />
     <Compile Include="Utilities\AsyncHelpers.cs" />
+    <Compile Include="Utilities\CommandQueue.cs" />
     <Compile Include="Utilities\FileHelpers.cs" />
     <Compile Include="Utilities\ObjectExtensions.cs" />
     <Compile Include="MineSweeperBoard.cs">

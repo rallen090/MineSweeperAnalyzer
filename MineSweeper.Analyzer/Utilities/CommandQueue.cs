@@ -41,9 +41,9 @@ namespace MineSweeper.Analyzer.Utilities
 			}
 		}
 
-		public async Task<CommandQueueMessage> GetNextMessageAsync(CancellationToken cancellationToken)
+		public async Task<CommandQueueMessage> GetNextMessageAsync()
 		{
-			while (!cancellationToken.IsCancellationRequested)
+			while (!this._cancellationTokenSource.Token.IsCancellationRequested)
 			{
 				Tuple<string, DateTime> nextMessage = null;
 				CommandQueueMessageType type = CommandQueueMessageType.StandardOutput;
@@ -69,7 +69,7 @@ namespace MineSweeper.Analyzer.Utilities
 					return new CommandQueueMessage(nextMessage.Item1, nextMessage.Item2, type);
 				}
 
-				await Task.Delay(TimeSpan.FromMilliseconds(250), cancellationToken);
+				await Task.Delay(TimeSpan.FromMilliseconds(250), this._cancellationTokenSource.Token);
 			}
 
 			return null;
@@ -95,21 +95,26 @@ namespace MineSweeper.Analyzer.Utilities
 		public void Dispose()
 		{
 			this._cancellationTokenSource.Cancel();
-			Task.WhenAll(new []{ this._standardOutputReaderTask, this._standardErrorReaderTask }).Wait();
+			Task.WhenAll(new[]
+			{
+				// wrap with continuations to swallow exceptions - closing streams / task canceled exception are likely
+				this._standardOutputReaderTask.ContinueWith(t => t.Dispose()),
+				this._standardErrorReaderTask.ContinueWith(t => t.Dispose())
+			}).Wait();
 		}
 
 		public class CommandQueueMessage
 		{
-			private readonly string _message;
-			private readonly DateTime _timestamp;
-			private readonly CommandQueueMessageType _messageType;
-
 			public CommandQueueMessage(string message, DateTime timestamp, CommandQueueMessageType messageType)
 			{
-				this._message = message;
-				this._timestamp = timestamp;
-				this._messageType = messageType;
+				this.Message = message;
+				this.TimeStamp = timestamp;
+				this.MessageType = messageType;
 			}
+
+			public string Message { get; }
+			public DateTime TimeStamp { get; }
+			public CommandQueueMessageType MessageType { get; }
 		}
 
 		public enum CommandQueueMessageType
