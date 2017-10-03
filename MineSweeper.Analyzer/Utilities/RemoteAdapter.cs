@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Medallion.Shell;
+using MineSweeper.Analyzer.Utilities;
 
 namespace MineSweeper.Utilities
 {
@@ -43,7 +44,7 @@ namespace MineSweeper.Utilities
 	    private async Task<string> ReadMessageAsync(Command command, CancellationToken cancellationToken)
 	    {
 		    string response;
-		    while (string.IsNullOrWhiteSpace(response = await command.StandardOutput.ReadLineAsync().ConfigureAwait(false)))
+		    while (string.IsNullOrWhiteSpace(response = await command.StandardOutput.ReadLineAsync().WithCancellation(cancellationToken).ConfigureAwait(false)))
 		    {
 			    if (cancellationToken.IsCancellationRequested)
 			    {
@@ -55,15 +56,23 @@ namespace MineSweeper.Utilities
 
 		private async Task<string> ReadErrorAsync(Command command, CancellationToken cancellationToken)
 		{
-			string error;
-			while (string.IsNullOrWhiteSpace(error = await command.StandardError.ReadLineAsync().ConfigureAwait(false)))
+			try
 			{
-				if (cancellationToken.IsCancellationRequested)
+				string error;
+				while (string.IsNullOrWhiteSpace(error = await command.StandardError.ReadLineAsync().WithCancellation(cancellationToken).ConfigureAwait(false)))
 				{
-					cancellationToken.ThrowIfCancellationRequested();
+					if (cancellationToken.IsCancellationRequested)
+					{
+						cancellationToken.ThrowIfCancellationRequested();
+					}
 				}
+				return error;
 			}
-			return error;
+			// TODO: build a queue for reading std out and error and process that asynchronously so we don't get stream-closed errors
+			catch (Exception ex)
+			{
+				return null;
+			}
 		}
 
 		public void Dispose()
