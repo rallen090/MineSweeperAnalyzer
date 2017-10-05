@@ -64,7 +64,8 @@ namespace MineSweeper.Solvers
 				cell = c,
 				eligibleNeighbors = this.GetAdjacentCells(grid, c.Cell.X, c.Cell.Y).Where(e => e.State == CellState.Hidden).ToList()
 			})
-			.OrderByDescending(c => c.eligibleNeighbors.Count)
+			// sort from fewest to most eligible neighbors and work downwards to search for supersets
+			.OrderBy(c => c.eligibleNeighbors.Count)
 			.ToList();
 
 			for (var i = 0; i < orderedSubsets.Count - 1; i++)
@@ -72,10 +73,11 @@ namespace MineSweeper.Solvers
 				var current = orderedSubsets[i];
 				var currentSet = orderedSubsets[i].eligibleNeighbors;
 				var type = MoveType.Click;
-				var firstSuperset = orderedSubsets.Skip(1).FirstOrDefault(s =>
+				var firstSuperset = orderedSubsets.Skip(i + 1).FirstOrDefault(s =>
 				{
 					// subset if (a) the super is > in size to the sub, (b) the remaining bomb counts match, and (c) subset is contained in superset
 					var isSubset = currentSet.Count < s.eligibleNeighbors.Count
+						// TODO: consider if we can infer flags from symmetric diffs
 						//&& current.cell.RemainingValue <= s.cell.RemainingValue
 						&& current.cell.RemainingValue == s.cell.RemainingValue
 						&& currentSet.All(s.eligibleNeighbors.Contains);
