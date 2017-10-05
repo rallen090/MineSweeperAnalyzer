@@ -76,14 +76,14 @@ namespace MineSweeper.Solvers
 				{
 					// subset if (a) the super is > in size to the sub, (b) the remaining bomb counts match, and (c) subset is contained in superset
 					var isSubset = currentSet.Count < s.eligibleNeighbors.Count
-						&& current.cell.RemainingValue <= s.cell.RemainingValue
-						//&& current.cell.RemainingValue == s.cell.RemainingValue
+						//&& current.cell.RemainingValue <= s.cell.RemainingValue
+						&& current.cell.RemainingValue == s.cell.RemainingValue
 						&& currentSet.All(s.eligibleNeighbors.Contains);
 
-					if (current.cell.RemainingValue != s.cell.RemainingValue)
-					{
-						type = MoveType.Flag;
-					}
+					//if (current.cell.RemainingValue != s.cell.RemainingValue)
+					//{
+					//	type = MoveType.Flag;
+					//}
 
 					return isSubset;
 				});
