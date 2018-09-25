@@ -39,8 +39,9 @@ namespace MineSweeper.Logic
             return grid;
         }
 
-        public static Cell[,] ExecuteMove(Cell[,] grid, Move move)
+        public static MoveExecutionResult ExecuteMove(Cell[,] grid, Move move)
         {
+	        var updatedCells = new List<Cell>();
             var cell = grid[move.Y, move.X];
             switch (move.MoveType)
             {
@@ -49,11 +50,16 @@ namespace MineSweeper.Logic
                     {
 						// considering throwing when prodiced duplicate clicks - but going more generous route of just no-oping.
 						// this also then has potential to get stuck in a loop if the solver spits back the same already-clicked cell indefinitely
-                        // throw new Exception("You've already clicked this spot!");
-	                    return grid;
+						// throw new Exception("You've already clicked this spot!");
+						return new MoveExecutionResult
+						{
+							UpdatedGrid = grid,
+							UpdatedCells = updatedCells
+						};
                     }
 
                     cell.State = CellState.Revealed;
+					updatedCells.Add(cell);
                     if (cell.IsMine)
                     {
                         throw new MineException("You've hit a mine!");
@@ -62,14 +68,19 @@ namespace MineSweeper.Logic
                     // reveal adjacent empty cells if we found one that is empty
                     if(cell.Value == 0)
                     {
-                        RevealEmptyAdjacentCells(grid, move.X, move.Y);
+                        RevealEmptyAdjacentCells(grid, move.X, move.Y, updatedCells);
                     }
                     break;
                 case MoveType.Flag:
                     cell.State = CellState.Flagged;
+					updatedCells.Add(cell);
                     break;
             }
-            return grid;
+			return new MoveExecutionResult
+			{
+				UpdatedGrid = grid,
+				UpdatedCells = updatedCells
+			}; ;
         }
 
         public static bool IsComplete(Cell[,] grid, int mineCount)
@@ -93,15 +104,19 @@ namespace MineSweeper.Logic
             return hiddenCount + flagCount <= mineCount;
         }
 
-        private static void RevealEmptyAdjacentCells(Cell[,] grid, int x, int y)
+        private static void RevealEmptyAdjacentCells(Cell[,] grid, int x, int y, List<Cell> updatedCells)
         {
-            var adjacentCells = GetAdjacentCells(grid, x, y);
+			var adjacentCells = GetAdjacentCells(grid, x, y);
 
 			// reveal adjacent non-bomb value cellsnext to the empty cell
 			adjacentCells
 				.Where(c => !c.IsMine && c.State == CellState.Hidden && c.Value > 0)
 				.ToList()
-				.ForEach(c => c.State = CellState.Revealed);
+				.ForEach(c =>
+				{
+					c.State = CellState.Revealed;
+					updatedCells.Add(c);
+				});
 
 			// then find all other adjacent empty cells 
 			foreach (var cell in adjacentCells)
@@ -111,9 +126,10 @@ namespace MineSweeper.Logic
                 {
                     // reveal the cell
                     cell.State = CellState.Revealed;
+					updatedCells.Add(cell);
 
 					// then recurse
-					RevealEmptyAdjacentCells(grid, cell.X, cell.Y);
+					RevealEmptyAdjacentCells(grid, cell.X, cell.Y, updatedCells);
                 }
             }
         }
@@ -135,6 +151,12 @@ namespace MineSweeper.Logic
             }
             return set;
         }
+
+	    public class MoveExecutionResult
+	    {
+		    public Cell[,] UpdatedGrid { get; set; }
+			public IReadOnlyList<Cell> UpdatedCells { get; set; }
+	    }
     }
 
     public class Move

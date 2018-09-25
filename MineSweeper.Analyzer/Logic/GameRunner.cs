@@ -78,12 +78,13 @@ namespace MineSweeper.Logic
                     do
                     {
                         var move = solver.GetNextMove(grid);
-                        grid = Sweeper.ExecuteMove(grid, move);
+	                    var executionResult = Sweeper.ExecuteMove(grid, move);
+						grid = executionResult.UpdatedGrid;
                         var copy = grid.DeepCopy();
                         game.Steps.Add(copy);
 
                         // draw the new grid as we move
-                        this.UpdateDisplay(() => this._display.RedrawGrid(copy));
+                        this.UpdateDisplay(() => this._display.RedrawGrid(executionResult.UpdatedCells));
                     }
                     while (!Sweeper.IsComplete(grid, this._mineCount));
 

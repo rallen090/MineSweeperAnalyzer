@@ -66,26 +66,27 @@ namespace MineSweeper
 
         public void RedrawGrid(Cell[,] grid)
         {
-            // redraw enabled is (A) there is an active run and real-time redraw is turned on, or (B) there is not an active run
-            if (this.checkBoxRealTimeRedraw.Checked || this._runnerTask.IsCompleted)
-            {
-                this.SuspendLayout();
-                this.dataGridBoard.ColumnCount = grid.GetLength(1);
-                for (var y = 0; y < grid.GetLength(0); y++)
-                {
-                    var row = this.dataGridBoard.Rows[y];
-                    for (var x = 0; x < grid.GetLength(1); x++)
-                    {
-                        var cell = grid[y, x];
-                        row.Cells[x].Value = cell;
-                        row.Cells[x].Style.ForeColor = GetColorStyleByCell(cell);
-                    }
-                }
-                this.ResumeLayout();
-            }
-        }
+			this.dataGridBoard.ColumnCount = grid.GetLength(1);
+			this.RedrawGrid(grid.Cast<Cell>().ToList());
+		}
 
-        public void UpdateRunInfo(List<Game> games)
+		public void RedrawGrid(IReadOnlyList<Cell> cellsToUpdate)
+		{
+			// redraw enabled is (A) there is an active run and real-time redraw is turned on, or (B) there is not an active run
+			if (this.checkBoxRealTimeRedraw.Checked || this._runnerTask.IsCompleted)
+			{
+				//this.SuspendLayout();
+				foreach (var cell in cellsToUpdate)
+				{
+					var gridCell = this.dataGridBoard.Rows[cell.Y].Cells[cell.X];
+					gridCell.Value = cell;
+					gridCell.Style.ForeColor = GetColorStyleByCell(cell);
+				}
+				//this.ResumeLayout();
+			}
+		}
+
+		public void UpdateRunInfo(List<Game> games)
         {
             if (games.Count > 0)
             {
