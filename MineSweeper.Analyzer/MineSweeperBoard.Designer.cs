@@ -233,7 +233,8 @@
 			this.comboBoxSolver.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.comboBoxSolver.FormattingEnabled = true;
 			this.comboBoxSolver.Items.AddRange(new object[] {
-            "LocalCustom",
+            "LocalOptimized",
+            "LocalBase",
             "LocalRandom",
             "Python",
             "Java",

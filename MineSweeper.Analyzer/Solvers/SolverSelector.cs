@@ -9,9 +9,11 @@ namespace MineSweeper.Solvers
         {
             switch (selectedSolverString)
             {
-                case "LocalCustom":
+                case "LocalOptimized":
                     return () => new LocalSolver();
-                case "LocalRandom":
+	            case "LocalBase":
+		            return () => new BaseImplementationSolver();
+				case "LocalRandom":
                     return () => new RandomSolver();
                 case "Python":
                     return () => new RemoteSolver(RemoteAdapter.CreatePythonAdapter());
